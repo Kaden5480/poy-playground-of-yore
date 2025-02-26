@@ -10,18 +10,30 @@ namespace PlaygroundOfYore {
     public class Plugin : BaseUnityPlugin {
         public void Awake() {
             SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+
+            CommonAwake();
         }
 
         public void OnDestroy() {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+            CommonSceneLoad();
+        }
+
+        private void OnSceneUnloaded(Scene scene) {
+            CommonSceneUnload();
         }
 
         public void Update() {
             CommonUpdate();
         }
 
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-            CommonSceneLoad();
+        private void OnGUI() {
+            CommonGUI();
         }
 
 #elif MELONLOADER
@@ -32,57 +44,49 @@ using MelonLoader;
 
 namespace PlaygroundOfYore {
     public class Plugin: MelonMod {
+        public override void OnInitializeMelon() {
+            CommonAwake();
+        }
+
         public override void OnSceneWasLoaded(int buildIndex, string sceneName) {
             CommonSceneLoad();
+        }
+
+        public override void OnSceneWasUnloaded(int buildIndex, string sceneName) {
+            CommonSceneUnload();
         }
 
         public override void OnUpdate() {
             CommonUpdate();
         }
 
-#endif
-
-        private Transform mainCameraTransform;
-
-        private Material MakeMaterial() {
-            return new Material(Shader.Find("Standard"));
+        public override void OnGUI() {
+            CommonGUI();
         }
 
-        private void SpawnBall() {
-            if (mainCameraTransform == null) {
-                return;
-            }
+#endif
 
-            const float radius = 1.5f;
+        private PlaygroundOfYore.Config.Cfg config = new PlaygroundOfYore.Config.Cfg();
+        private UI ui;
 
-            Vector3 start = mainCameraTransform.position;
-            Vector3 direction = mainCameraTransform.forward;
-
-            Vector3 spawnPoint = start + ((2*radius + 5) * direction);
-
-            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            MeshRenderer renderer = obj.GetComponent<MeshRenderer>();
-
-            renderer.material = MakeMaterial();
-            renderer.material.color = new Color(
-                198f/255f, 120f/255f, 221f/255f
-            );
-
-            obj.transform.position = spawnPoint;
-            obj.transform.localScale = 2 * radius * Vector3.one;
-
-            obj.AddComponent<Rigidbody>();
+        private void CommonAwake() {
+            ui = new UI(config);
         }
 
         private void CommonSceneLoad() {
-            GameObject mainCameraObj = GameObject.FindGameObjectWithTag("MainCamera");
-            mainCameraTransform = mainCameraObj.transform;
+            ui.OnSceneLoaded();
+        }
+
+        private void CommonSceneUnload() {
+            ui.OnSceneUnloaded();
         }
 
         private void CommonUpdate() {
-            if (Input.GetKeyDown(KeyCode.PageDown) == true) {
-                SpawnBall();
-            }
+            ui.Update();
+        }
+
+        private void CommonGUI() {
+            ui.Render();
         }
     }
 }
