@@ -41,7 +41,8 @@ namespace PlaygroundOfYore {
         }
 
         public void Render() {
-            if (inGameMenu.isMainMenu == true
+            if (inGameMenu == null
+                || inGameMenu.isMainMenu == true
                 || InGameMenu.isCurrentlyNavigationMenu == false
             ) {
                 return;
