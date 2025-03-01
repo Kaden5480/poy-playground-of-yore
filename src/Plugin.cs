@@ -9,6 +9,8 @@ namespace PlaygroundOfYore {
     [BepInPlugin("com.github.Kaden5480.poy-playground-of-yore", "PlaygroundOfYore", PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin {
         public void Awake() {
+            Harmony.CreateAndPatchAll(typeof(Patches.Catapult));
+
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
 

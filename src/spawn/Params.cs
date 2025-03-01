@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace PlaygroundOfYore.Spawn {
     public class Params {
-        public PrimitiveType primitiveType;
+        public SpawnType spawnType;
+        public float catapultAngle;
+        public float catapultSpring;
         public float size;
         public float mass;
         public float drag;
@@ -11,10 +13,6 @@ namespace PlaygroundOfYore.Spawn {
         public bool isKinematic;
         public bool configurableJoint;
 
-        public const PrimitiveType defaultPrimitiveType = PrimitiveType.Sphere;
-        public const float defaultDrag = 0f;
-        public const float defaultSize = 1f;
-        public const float defaultMass = 0.3f;
         public Color defaultColor { get; }= new Color(
             198f/255f, 120f/255f, 221f/255f
         );
@@ -24,10 +22,12 @@ namespace PlaygroundOfYore.Spawn {
         }
 
         public void Default() {
-            primitiveType = defaultPrimitiveType;
-            size = defaultSize;
-            mass = defaultMass;
-            drag = defaultDrag;
+            catapultAngle = 45f;
+            catapultSpring = 1000f;
+            spawnType = SpawnType.Sphere;
+            size = 1f;
+            mass = 0.3f;
+            drag = 0f;
             color = defaultColor;
             isKinematic = false;
             climbable = false;

@@ -18,12 +18,13 @@ namespace PlaygroundOfYore {
         private const float padding = 20;
         private const float buttonWidth = 100;
 
-        private int primitiveSelected = 0;
-        private string[] primitiveNames = new[] {
-            "Cube", "Sphere",
+        private int spawnSelected = 0;
+        private string[] spawnNames = new[] {
+            "Cube", "Sphere", "Catapult", "Swing",
         };
-        private PrimitiveType[] primitiveTypes = new[] {
-            PrimitiveType.Cube, PrimitiveType.Sphere,
+        private SpawnType[] spawnTypes = new[] {
+            SpawnType.Cube, SpawnType.Sphere, SpawnType.Catapult,
+            SpawnType.Swing,
         };
 
         private Vector2 scrollPosition = Vector2.zero;
@@ -63,11 +64,11 @@ namespace PlaygroundOfYore {
                 GUILayout.Width(width - padding), GUILayout.Height(height - padding - 15)
             );
 
-            primitiveSelected = GUILayout.SelectionGrid(
-                primitiveSelected, primitiveNames, 3
+            spawnSelected = GUILayout.SelectionGrid(
+                spawnSelected, spawnNames, 3
             );
 
-            spawnParams.primitiveType = primitiveTypes[primitiveSelected];
+            spawnParams.spawnType = spawnTypes[spawnSelected];
 
             spawnParams.climbable = GUILayout.Toggle(
                 spawnParams.climbable, "Climbable"
@@ -81,9 +82,19 @@ namespace PlaygroundOfYore {
                 spawnParams.configurableJoint, "Configurable Joint"
             );
 
+            GUILayout.Label($"Catapult Angle: {spawnParams.catapultAngle}");
+            spawnParams.catapultAngle = (float) Math.Round(GUILayout.HorizontalSlider(
+                spawnParams.catapultAngle, 0f, 90f
+            ), 0);
+
+            GUILayout.Label($"Catapult Spring: {spawnParams.catapultSpring}");
+            spawnParams.catapultSpring = (float) Math.Round(GUILayout.HorizontalSlider(
+                spawnParams.catapultSpring, 0f, 10000f
+            ), 0);
+
             GUILayout.Label($"Size: {spawnParams.size}");
             spawnParams.size = (float) Math.Round(GUILayout.HorizontalSlider(
-                spawnParams.size, 0.1f, 5f
+                spawnParams.size, 0.1f, 20f
             ), 2);
 
             GUILayout.Label($"Mass: {spawnParams.mass}");

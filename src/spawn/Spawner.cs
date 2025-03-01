@@ -14,7 +14,7 @@ namespace PlaygroundOfYore.Spawn {
             Vector3 start = mainCamera.position;
             Vector3 direction = mainCamera.forward;
 
-            Vector3 spawnPoint = start + ((2 * parameters.size + 5) * direction);
+            Vector3 spawnPoint = start + ((parameters.size + 3) * direction);
             obj.transform.position = spawnPoint;
 
             MeshRenderer renderer = obj.GetComponent<MeshRenderer>();
@@ -50,20 +50,60 @@ namespace PlaygroundOfYore.Spawn {
             ApplyCommon(obj, parameters);
         }
 
+        private void SpawnCatapult(Params parameters) {
+            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            obj.transform.localScale = new Vector3(0.2f, parameters.size, 0.2f);
+            obj.transform.localRotation = Quaternion.Euler(0f, 0f, parameters.catapultAngle);
+
+            parameters.configurableJoint = true;
+            parameters.isKinematic = true;
+
+            ApplyCommon(obj, parameters);
+
+            ConfigurableJoint joint = obj.GetComponent<ConfigurableJoint>();
+            joint.angularXMotion = ConfigurableJointMotion.Locked;
+            joint.angularYMotion = ConfigurableJointMotion.Locked;
+            joint.anchor = new Vector3(0f, -0.5f, 0f);
+            joint.targetRotation = Quaternion.Euler(0f, 0f, parameters.catapultAngle);
+
+            JointDrive drive = joint.angularYZDrive;
+            drive.positionSpring = parameters.catapultSpring;
+            joint.angularYZDrive = drive;
+
+            obj.AddComponent<Components.Catapult>();
+        }
+
+        private void SpawnSwing(Params parameters) {
+            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            obj.transform.localScale = new Vector3(0.2f, parameters.size, 0.2f);
+            ApplyCommon(obj, parameters);
+
+            ConfigurableJoint joint = obj.GetComponent<ConfigurableJoint>();
+            joint.angularXMotion = ConfigurableJointMotion.Locked;
+            joint.angularYMotion = ConfigurableJointMotion.Locked;
+            joint.anchor = new Vector3(0f, 0.5f, 0f);
+        }
+
         public void Spawn(Params parameters) {
             if (mainCamera == null) {
                 Console.WriteLine("Main camera is null, unable to spawn");
             }
 
-            switch (parameters.primitiveType) {
-                case PrimitiveType.Cube:
+            switch (parameters.spawnType) {
+                case SpawnType.Cube:
                     SpawnCube(parameters);
                     break;
-                case PrimitiveType.Sphere:
+                case SpawnType.Sphere:
                     SpawnSphere(parameters);
                     break;
+                case SpawnType.Catapult:
+                    SpawnCatapult(parameters);
+                    break;
+                case SpawnType.Swing:
+                    SpawnSwing(parameters);
+                    break;
                 default:
-                    Console.WriteLine($"Unsupported type: {parameters.primitiveType}");
+                    Console.WriteLine($"Unsupported type: {parameters.spawnType}");
                     break;
             }
         }
