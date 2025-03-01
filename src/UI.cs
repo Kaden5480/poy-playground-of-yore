@@ -73,6 +73,10 @@ namespace PlaygroundOfYore {
                 spawnParams.climbable, "Climbable"
             );
 
+            spawnParams.isKinematic = GUILayout.Toggle(
+                spawnParams.isKinematic, "Kinematic"
+            );
+
             GUILayout.Label($"Size: {spawnParams.size}");
             spawnParams.size = (float) Math.Round(GUILayout.HorizontalSlider(
                 spawnParams.size, 0.1f, 5f
