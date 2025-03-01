@@ -2,6 +2,8 @@ using System;
 
 using UnityEngine;
 
+using PlaygroundOfYore.Components;
+
 namespace PlaygroundOfYore.Spawn {
     public class Spawner {
         private Transform mainCamera = null;
@@ -70,7 +72,40 @@ namespace PlaygroundOfYore.Spawn {
             drive.positionSpring = parameters.catapultSpring;
             joint.angularYZDrive = drive;
 
-            obj.AddComponent<Components.Catapult>();
+            obj.AddComponent<Catapult>();
+        }
+
+        private void SpawnJumpPad(Params parameters) {
+            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            obj.transform.localScale = new Vector3(parameters.size, 0.1f, parameters.size);
+            obj.transform.localRotation = Quaternion.Euler(0f, 0f, parameters.jumpPadAngle);
+
+            parameters.isKinematic = true;
+
+            ApplyCommon(obj, parameters);
+
+            BoxCollider collider = obj.GetComponent<BoxCollider>();
+            collider.isTrigger = true;
+
+            JumpPad jumpPad = obj.AddComponent<JumpPad>();
+            jumpPad.jumpForce = parameters.jumpPadForce;
+        }
+
+        private void SpawnBoostZone(Params parameters) {
+            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            obj.layer = LayerMask.NameToLayer("PeakBoundary");
+            obj.transform.localScale = parameters.size * Vector3.one;
+
+            parameters.isKinematic = true;
+
+            ApplyCommon(obj, parameters);
+
+            BoxCollider collider = obj.GetComponent<BoxCollider>();
+            collider.isTrigger = true;
+
+            BoostZone boostZone = obj.AddComponent<BoostZone>();
+            boostZone.boostForce = parameters.boostZoneForce;
+
         }
 
         private void SpawnSwing(Params parameters) {
@@ -101,6 +136,12 @@ namespace PlaygroundOfYore.Spawn {
                     break;
                 case SpawnType.Swing:
                     SpawnSwing(parameters);
+                    break;
+                case SpawnType.JumpPad:
+                    SpawnJumpPad(parameters);
+                    break;
+                case SpawnType.BoostZone:
+                    SpawnBoostZone(parameters);
                     break;
                 default:
                     Console.WriteLine($"Unsupported type: {parameters.spawnType}");

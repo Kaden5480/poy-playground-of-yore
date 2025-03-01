@@ -21,10 +21,11 @@ namespace PlaygroundOfYore {
         private int spawnSelected = 0;
         private string[] spawnNames = new[] {
             "Cube", "Sphere", "Catapult", "Swing",
+            "Jump Pad", "Boost Zone"
         };
         private SpawnType[] spawnTypes = new[] {
             SpawnType.Cube, SpawnType.Sphere, SpawnType.Catapult,
-            SpawnType.Swing,
+            SpawnType.Swing, SpawnType.JumpPad, SpawnType.BoostZone,
         };
 
         private Vector2 scrollPosition = Vector2.zero;
@@ -90,6 +91,21 @@ namespace PlaygroundOfYore {
             GUILayout.Label($"Catapult Spring: {spawnParams.catapultSpring}");
             spawnParams.catapultSpring = (float) Math.Round(GUILayout.HorizontalSlider(
                 spawnParams.catapultSpring, 0f, 10000f
+            ), 0);
+
+            GUILayout.Label($"Jump Pad Angle: {spawnParams.jumpPadAngle}");
+            spawnParams.jumpPadAngle = (float) Math.Round(GUILayout.HorizontalSlider(
+                spawnParams.jumpPadAngle, 0f, 90f
+            ), 0);
+
+            GUILayout.Label($"Jump Pad Force: {spawnParams.jumpPadForce}");
+            spawnParams.jumpPadForce = (float) Math.Round(GUILayout.HorizontalSlider(
+                spawnParams.jumpPadForce, 0f, 10f
+            ), 0);
+
+            GUILayout.Label($"Boost Zone Force: {spawnParams.boostZoneForce}");
+            spawnParams.boostZoneForce = (float) Math.Round(GUILayout.HorizontalSlider(
+                spawnParams.boostZoneForce, 0f, 100f
             ), 0);
 
             GUILayout.Label($"Size: {spawnParams.size}");

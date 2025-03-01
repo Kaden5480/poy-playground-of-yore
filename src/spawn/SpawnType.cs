@@ -4,5 +4,7 @@ namespace PlaygroundOfYore.Spawn {
         Sphere,
         Catapult,
         Swing,
+        JumpPad,
+        BoostZone,
     }
 }
