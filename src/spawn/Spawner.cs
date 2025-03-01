@@ -27,6 +27,7 @@ namespace PlaygroundOfYore.Spawn {
 
             Rigidbody rb = obj.AddComponent<Rigidbody>();
             rb.mass = parameters.mass;
+            rb.drag = parameters.drag;
 
             if (parameters.climbable == true) {
                 obj.tag = "ClimbableRigidbody";

@@ -69,6 +69,11 @@ namespace PlaygroundOfYore {
                 spawnParams.mass, 0f, 5f
             ), 2);
 
+            GUILayout.Label($"Drag: {spawnParams.drag}");
+            spawnParams.drag = (float) Math.Round(GUILayout.HorizontalSlider(
+                spawnParams.drag, 0f, 50f
+            ), 2);
+
             GUILayout.Label("== Color ==");
             GUILayout.Label($"Red: ({255 * spawnParams.color.r})");
             int red = (int) GUILayout.HorizontalSlider(
