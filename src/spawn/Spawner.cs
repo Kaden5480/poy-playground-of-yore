@@ -29,6 +29,13 @@ namespace PlaygroundOfYore.Spawn {
             if (parameters.climbable == true) {
                 obj.tag = "ClimbableRigidbody";
             }
+
+            if (parameters.configurableJoint == true) {
+                ConfigurableJoint joint = obj.AddComponent<ConfigurableJoint>();
+                joint.xMotion = ConfigurableJointMotion.Locked;
+                joint.yMotion = ConfigurableJointMotion.Locked;
+                joint.zMotion = ConfigurableJointMotion.Locked;
+            }
         }
 
         private void SpawnCube(Params parameters) {

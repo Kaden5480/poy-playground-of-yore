@@ -9,6 +9,7 @@ namespace PlaygroundOfYore.Spawn {
         public Color color;
         public bool climbable;
         public bool isKinematic;
+        public bool configurableJoint;
 
         public const PrimitiveType defaultPrimitiveType = PrimitiveType.Sphere;
         public const float defaultDrag = 0f;
@@ -30,6 +31,7 @@ namespace PlaygroundOfYore.Spawn {
             color = defaultColor;
             isKinematic = false;
             climbable = false;
+            configurableJoint = false;
         }
     }
 }
