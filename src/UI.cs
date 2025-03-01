@@ -18,6 +18,14 @@ namespace PlaygroundOfYore {
         private const float padding = 20;
         private const float buttonWidth = 100;
 
+        private int primitiveSelected = 0;
+        private string[] primitiveNames = new[] {
+            "Cube", "Sphere",
+        };
+        private PrimitiveType[] primitiveTypes = new[] {
+            PrimitiveType.Cube, PrimitiveType.Sphere,
+        };
+
         private Vector2 scrollPosition = Vector2.zero;
 
         public UI(Cfg config) {
@@ -36,7 +44,7 @@ namespace PlaygroundOfYore {
 
         public void Update() {
             if (Input.GetKeyDown(KeyCode.PageDown)) {
-                spawner.Spawn(PrimitiveType.Sphere, spawnParams);
+                spawner.Spawn(spawnParams);
             }
         }
 
@@ -54,6 +62,12 @@ namespace PlaygroundOfYore {
                 scrollPosition,
                 GUILayout.Width(width - padding), GUILayout.Height(height - padding - 15)
             );
+
+            primitiveSelected = GUILayout.SelectionGrid(
+                primitiveSelected, primitiveNames, 3
+            );
+
+            spawnParams.primitiveType = primitiveTypes[primitiveSelected];
 
             spawnParams.climbable = GUILayout.Toggle(
                 spawnParams.climbable, "Climbable"

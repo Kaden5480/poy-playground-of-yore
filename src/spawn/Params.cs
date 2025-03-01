@@ -2,12 +2,14 @@ using UnityEngine;
 
 namespace PlaygroundOfYore.Spawn {
     public class Params {
+        public PrimitiveType primitiveType;
         public float size;
         public float mass;
         public float drag;
         public Color color;
         public bool climbable;
 
+        public const PrimitiveType defaultPrimitiveType = PrimitiveType.Sphere;
         public const float defaultDrag = 0f;
         public const float defaultSize = 1f;
         public const float defaultMass = 0.3f;
@@ -20,9 +22,10 @@ namespace PlaygroundOfYore.Spawn {
         }
 
         public void Default() {
-            drag = defaultDrag;
+            primitiveType = defaultPrimitiveType;
             size = defaultSize;
             mass = defaultMass;
+            drag = defaultDrag;
             color = defaultColor;
             climbable = false;
         }
