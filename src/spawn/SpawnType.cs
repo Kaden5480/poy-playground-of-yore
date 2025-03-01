@@ -6,5 +6,6 @@ namespace PlaygroundOfYore.Spawn {
         Swing,
         JumpPad,
         BoostZone,
+        Lift,
     }
 }

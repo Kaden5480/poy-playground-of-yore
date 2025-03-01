@@ -119,6 +119,18 @@ namespace PlaygroundOfYore.Spawn {
             joint.anchor = new Vector3(0f, 0.5f, 0f);
         }
 
+        private void SpawnLift(Params parameters) {
+            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            obj.transform.localScale = new Vector3(parameters.size, 0.1f, parameters.size);
+            parameters.isKinematic = true;
+
+            ApplyCommon(obj, parameters);
+
+            Lift lift = obj.AddComponent<Lift>();
+            lift.height = parameters.liftHeight;
+            lift.speed = parameters.liftSpeed;
+        }
+
         public void Spawn(Params parameters) {
             if (mainCamera == null) {
                 Console.WriteLine("Main camera is null, unable to spawn");
@@ -142,6 +154,9 @@ namespace PlaygroundOfYore.Spawn {
                     break;
                 case SpawnType.BoostZone:
                     SpawnBoostZone(parameters);
+                    break;
+                case SpawnType.Lift:
+                    SpawnLift(parameters);
                     break;
                 default:
                     Console.WriteLine($"Unsupported type: {parameters.spawnType}");

@@ -8,6 +8,8 @@ namespace PlaygroundOfYore.Spawn {
         public float jumpPadAngle;
         public float jumpPadForce;
         public float boostZoneForce;
+        public float liftSpeed;
+        public float liftHeight;
         public float size;
         public float mass;
         public float drag;
@@ -30,6 +32,8 @@ namespace PlaygroundOfYore.Spawn {
             jumpPadAngle = 45f;
             jumpPadForce = 10f;
             boostZoneForce = 10f;
+            liftSpeed = 1f;
+            liftHeight = 10f;
             spawnType = SpawnType.Sphere;
             size = 1f;
             mass = 0.3f;
