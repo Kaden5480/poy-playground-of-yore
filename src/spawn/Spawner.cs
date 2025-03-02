@@ -77,7 +77,8 @@ namespace PlaygroundOfYore.Spawn {
 
         private void SpawnJumpPad(Params parameters) {
             GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            obj.transform.localScale = new Vector3(parameters.size, 0.1f, parameters.size);
+            obj.layer = LayerMask.NameToLayer("WindMillWings");
+            obj.transform.localScale = new Vector3(parameters.size, 0.3f, parameters.size);
             obj.transform.localRotation = Quaternion.Euler(0f, 0f, parameters.jumpPadAngle);
 
             parameters.isKinematic = true;
